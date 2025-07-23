@@ -11,7 +11,7 @@ def main():
     # Environment setup
     GPUS_PER_NODE = 8
     NNODES = 1
-    WANDB_ENTITY = "ENTITY_NAME"
+    WANDB_ENTITY = os.environ.get("WANDB_ENTITY", "ENTITY_NAME")
     WANDB_PROJECT_NAME = "competition_verl_grpo"
     WANDB_RUN_NAME = "llama3.2_GRPO_single_node"
     
