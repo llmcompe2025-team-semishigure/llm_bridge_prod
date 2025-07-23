@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=training_sft
-#SBATCH -p YOU_TEAM_ENTITY_NAME
-#SBATCH --nodelist=osk-gpu[YOU_TEAM_GPU_NUM]
+#SBATCH -p P04
+#SBATCH --nodelist=osk-gpu[61-62]
 #SBATCH --nodes=2
 #SBATCH --gpus-per-node=8
-#SBATCH --output=/home/%u/training/multinode/sft/logs/%x-%j.out
-#SBATCH --error=/home/%u/training/multinode/sft/logs/%x-%j.err
+#SBATCH --output=./logs/%x-%j.out
+#SBATCH --error=./logs/%x-%j.err
 
 
 SCRIPT_ROOT="$HOME/llm_bridge_prod/train"

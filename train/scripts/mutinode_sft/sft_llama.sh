@@ -39,27 +39,28 @@ export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 ulimit -v unlimited
 
 #YOU_TEAM_ENTITY_NAME を wandb の組織名に置き換えてください。
-export WANDB_ENTITY="YOU_TEAM_ENTITY_NAME"
-export WANDB_PROJECT_NAME="competition_verl_test"
-export WANDB_RUN_NAME="llama3.2_SFT_test"
+export WANDB_ENTITY="LLMcompe-Team-Watanabe"
+export WANDB_PROJECT_NAME="verl_test"
+export WANDB_RUN_NAME="Qwen3.14B_SFT_test"
 
 torchrun --rdzv_backend c10d \
          --rdzv_endpoint ${MASTER_ADDR}:${MASTER_PORT} \
          --nnodes ${NNODES} --nproc_per_node ${GPUS_PER_NODE} \
          --node_rank ${NODE_RANK} \
          -m verl.trainer.fsdp_sft_trainer \
-         data.train_files=$HOME/data/gsm8k/train.parquet \
-         data.val_files=$HOME/data/gsm8k/test.parquet \
+         data.train_files=/home/Competition2025/P04/shareP04/data/Omni-MATH/train.parquet \
+         data.val_files=/home/Competition2025/P04/shareP04/data/Omni-MATH/test.parquet \
          data.prompt_key=extra_info \
          data.response_key=extra_info \
+	     data.max_length=16384 \
          data.prompt_dict_keys=['question'] \
          +data.response_dict_keys=['answer'] \
-         data.micro_batch_size_per_gpu=8 \
-         model.partial_pretrain=$HOME/model/Llama-3.2-1B-Instruct \
-         trainer.project_name=gsm8k-sft \
-         trainer.experiment_name=$HOME/model/Llama-3.2-1B-Instruct \
+         data.micro_batch_size_per_gpu=1 \
+         model.partial_pretrain=/home/Competition2025/P04/shareP04/models/Qwen3-14B \
+         trainer.project_name=omnimath-sft \
+         trainer.experiment_name=/home/Competition2025/P04/shareP04/models/Qwen3-14B \
          trainer.total_epochs=2 \
-         trainer.default_local_dir=$HOME/training/multinode/sft/checkpoints \
+         trainer.default_local_dir=/home/Competition2025/P04/shareP04/checkpoints/Qwen3-14B \
          trainer.logger=['console','wandb'] \
          trainer.project_name=$WANDB_PROJECT_NAME \
          trainer.experiment_name=$WANDB_RUN_NAME
